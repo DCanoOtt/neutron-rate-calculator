@@ -225,6 +225,7 @@ table.t .cfg { color: var(--ink2); font-size: 12px; }
             <p><b>Isotope chart.</b> The <i>Isotope chart</i> button above <i>Find isotope</i> opens a floating chart of the nuclides (neutron number N across, proton number Z up). Colours give the main decay mode of the ground state: black stable, blue β⁻, light red EC / β⁺, yellow α, green spontaneous fission, orange proton emission, violet neutron emission, tan other. Isotopes that have a table in the loaded library are drawn in full colour with an outline; the others are faded. Use the wheel or the + / − buttons to zoom, or drag a rectangle (<i>Zoom box</i>) to zoom into a region; <i>Move</i> (or Shift+drag) drags the chart; double-click or <i>Whole chart</i> shows everything, and <i>Selected</i> centres on the current isotope. The title bar moves the window and its corner resizes it. The magic numbers 2, 8, 20, 28, 50, 82 and 126 are bracketed by thin dashed orange lines and labelled in orange on both axes. A click on an isotope with data selects it as the isotope of the page; Shift+click adds it to the compound. Moving the pointer over an isotope opens a small window with its name, Z, N, A, decay mode, half-life and the ZAIDs available. Decay data: NUBASE.</p>
             <p><b>Saving the plots.</b> The <i>Save plot</i> button (next to <i>Reset zoom</i>) opens a menu with PNG, PDF and ROOT histograms. PNG and PDF save the three panels as they are shown, with a white background (the PDF is one page that holds the picture). <i>ROOT histograms</i> writes one ROOT file with the curves of the three panels as TH1D histograms on the energy range shown (including the zoom): <code>phi</code>, <code>sigma</code>, <code>rate</code>, plus <code>rate_thin_sample</code>, <code>rate_without_resolution</code>, <code>rate_cumulative_fraction</code> and one histogram per extra reaction when those curves are drawn. Each bin spans the geometric mid-points between neighbouring energy points of the table, in MeV, and its content is the value at that point (the rate density is per unit ln E). The file is delivered inside a zip because the viewer only allows some file types. You are asked to confirm the file name.</p>
             <p><b>Charts.</b> Three panels share one logarithmic energy axis: the fluence Φ(E), the cross section σ(E), and the rate density (rate per unit ln E). The energy values are written under every panel and, when you zoom into a narrow window, switch to round numbers on a linear scale so there is always a reference. Each panel has its title and units above it and, where needed, a colour legend in a band above the frame, so nothing is written over the curves. When several reactions are drawn, every ticked reaction of the chosen isotope has its own colour in the σ and rate-density panels (with Σ drawn first when it is the chosen result), and the cumulative curve belongs to the chosen result. <i>Linear / Log</i> sets the vertical axis of all three panels (fluence, cross section and rate density; log by default); on log axes the range grows up to 18 decades when several curves are drawn. <i>Per atom / Per sample</i> chooses whether the rate density is for one atom or for the whole sample. The dashed black line is the cumulative rate in % (right axis); the dotted line is the thin-sample value, shown for a single curve when self-shielding is on. The shaded band marks energies below the pulse-overlap energy. The <i>Axis</i> toggle switches the horizontal axis between neutron energy and time of flight (see section 5). Move the pointer over the charts to read E, t and the values there; drag across the charts to zoom in; double-click or press <i>Reset zoom</i> to return to the full window.</p>
+            <p><b>Zooming.</b> Drag across the plots to zoom the energy range only (the vertical axes stay as they are). Hold <i>Shift</i> while dragging to draw a box inside one plot: the horizontal range of all plots follows the width of the box and the vertical range of that plot follows its height. A Shift-drag that is nearly horizontal or nearly vertical (under 6 pixels in the other direction) changes only one axis. A plot with a manual vertical range shows <i>[y zoomed]</i> after its title; the other plots stay on autoscale, and the rate and the yield plots remember their ranges separately. Double-click a plot or press <i>Reset zoom</i> to return to the full energy range and autoscale in all plots. <i>Save plot</i> as PNG or PDF stores what is on screen, while ASCII and ROOT files hold the whole data.</p>
             <p><b>Rate by energy decade.</b> The share of the total rate in each decade of neutron energy, in %, in 1/s for the sample and per pulse. Its own <i>Reaction</i> selector, next to the title, offers the same list as <i>Results for</i>. <i>Same as results</i> (the default) follows that selector; any other choice keeps the decade table on that reaction or sum while the rest of the page shows something else.</p>
             <p><b>All facilities, same isotope and reaction.</b> The same calculation for every beam line, with the reaction chosen in <i>Results for</i>. Each line is at its nominal rate and path (your own settings for the selected line). The columns are the rate per atom, in the sample and per pulse. <i>Relative</i> is a bar for the per-atom rate on a logarithmic scale: the best facility is a full bar, and each factor of 10 below it shortens the bar by one sixth (minimum 2 %). Read the exact ratios from the numbers.</p>
             <p><b>Rates by reaction.</b> Shown when more than one reaction or component is listed. It has one row for every ticked reaction of every component, with the atoms, the rate per atom, in the sample and per pulse. A component with no reaction ticked is listed as <i>shielding only</i>. The last row sums the listed reactions; overlapping channels are counted twice there.</p>
@@ -242,7 +243,8 @@ table.t .cfg { color: var(--ink2); font-size: 12px; }
 
             <h3>7. Self-shielding</h3>
             <p>A strong resonance absorbs most of the beam in the first layers, so the real rate is lower than the thin-sample value. The page treats the sample as a uniform slab of areal density n = N / area (atoms per barn) and multiplies the integrand by (1 − e<sup>−τ</sup>) / τ, with τ(E) = Σ<sub>i</sub> r<sub>i</sub> n σ<sub>tot,i</sub>(E). The sum runs over the primary isotope (r = 1) and all components, using MT 1 of each table. This is the first-collision attenuation of the beam. The "peak optical depth" is the largest τ in the window; the thin-sample percentage shows how much the correction lowers the total.</p>
-            <p>Limits of the model: scattered neutrons are treated as removed (no scatter-in, no multiple scattering), so the correction is an upper bound on shielding for light, scattering-dominated samples. The beam is assumed uniform over a circular spot of area π r². There is no Doppler or sample-temperature treatment beyond the temperature of the table you choose, and unresolved-resonance probability tables are not used. Cross sections are those of the pointwise ACE table.</p>
+            <p><b>Self-shielding model.</b> Three models are available in the sample section. (1) <i>Simple: first collision</i> is the factor above; a neutron that scatters is lost. (2) <i>Second collision (analytic)</i> adds the neutrons that scatter once and then react: for an infinite slab, normal incidence and isotropic scattering without energy change, Y<sub>2</sub> = (Σ<sub>el</sub>/Σ<sub>t</sub>)(Σ<sub>x</sub>/Σ<sub>t</sub>) G(T), with G(T) = ∫<sub>0</sub><sup>T</sup> e<sup>−t</sup>[1 − E<sub>2</sub>(t)/2 − E<sub>2</sub>(T−t)/2] dt, T = n Σ<sub>t</sub>, and Σ<sub>el</sub> from MT 2. (3) <i>Multiple scattering (Monte Carlo)</i> follows the neutrons after the first collision (the first collision itself is exact and analytic): elastic scattering, isotropic in the centre of mass, with the energy change, a free-gas target below 400 kT at the temperature of the table, and every other reaction removing the neutron. It runs in the background on a grid of energies refined where the total cross section changes (histories per energy are set in the box; 2000 is a good start), and the plots update when it is ready. For thin samples the three models agree. They differ at strong resonances of thick samples, and the Monte Carlo also follows the energy change in a scattering, which matters when the energy loss is comparable to the resonance width. The yield and the rate saved in the files and the plots use the chosen model.</p>
+            <p>Limits of the models: the simple model treats scattered neutrons as removed (no scatter-in), so it is a lower bound of the rate for scattering-dominated samples. The correction models assume an infinite slab of the areal density N / area (no lateral leakage), elastic scattering from MT 2 only (no inelastic scatter-in, no angular distributions from the ACE file), no delay of the scattered neutron in the time of flight, and no sample holder or background. The beam is assumed uniform over a circular spot of area π r². There is no Doppler or sample-temperature treatment beyond the temperature of the table you choose, and unresolved-resonance probability tables are not used. Cross sections are those of the pointwise ACE table.</p>
 
             <h3>8. Tips and checks</h3>
             <p>If the rate looks too low in a resonance, lower the mass or enlarge the spot radius, and compare with the dotted thin-sample line. A very small E min needs a fluence table that reaches it; outside the table the fluence is not extrapolated, so the rate there is zero. Check the status line below the folder button when a library does not load: it reports the file name and the problem. The resolution only changes structures that are not much wider than it. In the resonance region, check the ΔE/E in the hint against the resonance widths: a resolution much narrower than a resonance leaves it unchanged, while a much wider one flattens it. In time-of-flight mode the dashed cumulative curve still accumulates in energy, so it falls from left to right. If an extra isotope shows no rate, make sure at least one reaction is ticked for it; with none ticked it only shields.</p>
@@ -357,6 +359,11 @@ table.t .cfg { color: var(--ink2); font-size: 12px; }
         </div>
         <label class="chk"><input id="ss" type="checkbox" checked> <span>Include self-shielding (uniform slab)</span></label>
         <div class="hint" id="ssInfo"></div>
+        <div class="row2">
+          <label class="fld"><span>Self-shielding model</span><select id="ssModel"><option value="first">1 · Simple: first collision</option><option value="ms1">2 · Second collision (analytic)</option><option value="ms">3 · Multiple scattering (Monte Carlo)</option></select></label>
+          <label class="fld"><span>Histories per energy</span><input id="msN" type="number" min="100" step="100" value="2000" inputmode="numeric"></label>
+        </div>
+        <div class="hint" id="msStat"></div>
         <div class="warnline" id="warn" role="alert"></div>
       </section>
     </aside>
@@ -393,7 +400,7 @@ table.t .cfg { color: var(--ink2); font-size: 12px; }
           <span class="savemenu" id="saveWrap" hidden><button type="button" class="btn" id="saveBtn" aria-haspopup="true" aria-expanded="false">Save plot ▾</button><span class="menu" id="saveMenu" role="menu" hidden><button type="button" role="menuitem" id="savePng">PNG</button><button type="button" role="menuitem" id="savePdf">PDF</button><button type="button" role="menuitem" id="saveTxt" title="The plotted curves as a plain-text table with a header describing each column [units]">ASCII</button><button type="button" role="menuitem" id="saveRoot" title="One ROOT file with the plots as TH1D histograms (delivered inside a zip)">ROOT histograms</button></span></span>
         </div>
         <div class="hint" id="saveMsg" aria-live="polite"></div>
-        <div class="readout" id="readout">Move the pointer over the charts to read values at one energy. Drag across them to zoom in, double-click or use Reset zoom to return to the full window.</div>
+        <div class="readout" id="readout">Move the pointer over the charts to read values at one energy. Drag across the plots to zoom the energy range; hold Shift while dragging to draw a box that zooms the energy range and the vertical range of that plot; double-click or use Reset zoom to return to the full window.</div>
         <div id="chartHost"></div>
       </section>
 
@@ -423,7 +430,7 @@ table.t .cfg { color: var(--ink2); font-size: 12px; }
           <p>Pulse overlap: neutrons slower than E = ½ m (L f)² reach the target after the next pulse has started. That energy is shaded on the charts. Below it the spectrum mixes several pulses unless a pulse picker or filter removes the overlap.</p>
           <p>Time of flight and resolution: t = L / (β c) with the relativistic β, L from the beam line name (19.55 m for the EAR2 Monte Carlo resolution function). The Gaussian width is constant in t, the cross section is not broadened, the rate per ns is convolved and converted back to energy, so the total is conserved.</p>
           <p>Atoms in the beam are N = mass / (AWR × 1.00866 u). The sample is a uniform slab of areal density n = N / (π r²), uniformly illuminated. Density only converts between mass and thickness (thickness = mass / (density × area)). It starts at the density of the element of the selected isotope, and you can overwrite it. Editing the thickness changes the mass.</p>
-<p>Self-shielding (on by default): each energy is weighted by (1 − e<sup>−τ</sup>) / τ with τ = n σ<sub>tot</sub>(E), using MT 1 from the same ACE table. This is the first-collision attenuation of a slab. It caps the rate inside strong resonances, where σ<sub>tot</sub> n is large. It does not model neutrons scattered back in, multiple scattering or Doppler broadening beyond the table temperature, so it errs on the low side when scattering dominates. The dotted curve in the rate chart is the thin-sample rate. Untick the box to get the thin-sample rate.</p>
+<p>Self-shielding (on by default): each energy is weighted by (1 − e<sup>−τ</sup>) / τ with τ = n σ<sub>tot</sub>(E), using MT 1 from the same ACE table. This is the first-collision attenuation of a slab. It caps the rate inside strong resonances, where σ<sub>tot</sub> n is large. With the <i>Self-shielding model</i> box you can add the second collision (analytic) or the full multiple scattering (Monte Carlo); without them it ignores neutrons scattered in the sample, so it errs on the low side when scattering dominates. The dotted curve in the rate chart is the thin-sample rate. Untick the box to get the thin-sample rate.</p>
           <p>Compound: the isotope in the Cross sections group is the primary component, and N is its number of atoms. Each extra component i has r<sub>i</sub> atoms per primary atom, so its areal density is r<sub>i</sub> n. The self-shielding weight becomes (1 − e<sup>−τ</sup>) / τ with τ = Σ<sub>i</sub> r<sub>i</sub> n σ<sub>tot,i</sub>(E), the sum running over all components, so a scatterer such as oxygen shields the resonances of uranium. Sample mass is the total mass N Σ r<sub>i</sub> A<sub>i</sub> u. The element density no longer applies, so enter the density of the mixture to get a thickness.</p>
           <p>ACE input: ASCII type-1 continuous-energy neutron tables. Isotopes are listed by their ZAID string (for example 26056.80c). Reactions come from the MTR/SIG blocks, plus total (MT 1), elastic (MT 2) and absorption (MT 101) from the main grid. MT 3 is derived as total minus elastic.</p>
         </div>
@@ -680,9 +687,144 @@ function sumRx(rxs, w) {
 }
 
 // Rate per atom (1/s) = integral of sigma[b]*1e-24 * Phi dlnE, flux already in n/(cm2 s dlnE).
+// ---------- Second-collision correction (analytic, "level 1") ----------
+// Infinite slab, normal incidence, isotropic scattering without energy change. With T = tau_total the optical thickness:
+// Y2 = (Sigma_el / Sigma_t) (Sigma_x / Sigma_t) G(T),  G(T) = int_0^T e^-t [1 - E2(t)/2 - E2(T-t)/2] dt.
+function expint1(x) {
+  if (x <= 0) return Infinity;
+  if (x <= 1) { let sum = 0, term = 1; for (let k = 1; k < 40; k++) { term *= -x / k; sum -= term / k; if (Math.abs(term / k) < 1e-17) break; } return -0.5772156649015329 - Math.log(x) + sum; }
+  let b = x + 1, c = 1e30, d = 1 / b, h = d;
+  for (let i = 1; i < 200; i++) { const an = -i * i; b += 2; d = 1 / (an * d + b); c = b + an / c; const del = c * d; h *= del; if (Math.abs(del - 1) < 1e-13) break; }
+  return h * Math.exp(-x);
+}
+function expint2(x) { return x <= 0 ? 1 : Math.exp(-x) - x * expint1(x); }
+const GL8X = [0.1834346424956498, 0.5255324099163290, 0.7966664774136267, 0.9602898564975363];
+const GL8W = [0.3626837833783620, 0.3137066458778873, 0.2223810344533745, 0.1012285362903763];
+function slabG(T) {
+  const U = Math.min(T, 40), f = t => Math.exp(-t) * (1 - 0.5 * expint2(t) - 0.5 * expint2(T - t));
+  const pts = [0, 0.05, 0.25, 1, 3, 8, 20, 40, T - 0.05, T - 0.25, T - 1, T - 3, T - 8, T - 20, T].filter(x => x >= 0 && x <= U + 1e-12);
+  if (pts[pts.length - 1] < U) pts.push(U);
+  pts.sort((p, q) => p - q);
+  let sum = 0;
+  for (let i = 1; i < pts.length; i++) {
+    const a = pts[i - 1], b = pts[i];
+    if (b - a < 1e-14) continue;
+    const m = (a + b) / 2, h = (b - a) / 2;
+    for (let k = 0; k < 4; k++) { const d = h * GL8X[k]; sum += GL8W[k] * h * (f(m - d) + f(m + d)); }
+  }
+  return sum;
+}
+let _GT = null;
+const G_LO = Math.log(1e-6), G_HI = Math.log(2e4), G_N = 700;
+function slabGfast(T) {                                         // tabulated in ln T (log-log interpolation)
+  if (!(T > 0)) return 0;
+  if (!_GT) { _GT = new Float64Array(G_N); for (let i = 0; i < G_N; i++) _GT[i] = Math.log(Math.max(1e-300, slabG(Math.exp(G_LO + (G_HI - G_LO) * i / (G_N - 1))))); }
+  const l = Math.log(T);
+  if (l <= G_LO) return Math.exp(_GT[0] + 2 * (l - G_LO));
+  if (l >= G_HI) return Math.exp(_GT[G_N - 1]);
+  const x = (l - G_LO) / (G_HI - G_LO) * (G_N - 1), i = Math.floor(x), t = x - i;
+  return Math.exp(_GT[i] + (_GT[Math.min(i + 1, G_N - 1)] - _GT[i]) * t);
+}
+
+// ---------- Multiple-scattering correction (Monte Carlo, "level 2") ----------
+// Slab of areal density n0 (atoms/barn of the primary isotope), normal incidence, infinite lateral extent.
+// Collisions after the first are followed by analogue Monte Carlo; the first collision is exact (forced) and is NOT
+// scored, because it is already contained in the first-collision yield (sigma_x/sigma_tot)(1 - exp(-tau)).
+// Elastic scattering only (MT 2), isotropic in the centre of mass, free-gas target below 400 kT, every other reaction removes the neutron.
+function rng32(seed) {
+  let a = seed >>> 0;
+  return () => { a = (a + 0x6D2B79F5) >>> 0; let t = a; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+}
+let _msE = 0, _msC = 1;
+function msScatter(E, A, kT, rnd) {
+  const sn = Math.sqrt(E);
+  let tx = 0, ty = 0, tz = 0;
+  if (kT > 0 && E < 400 * kT) {                                    // free gas, constant cross section approximation
+    const y = Math.sqrt(A * E / kT);
+    let x = 0, mut = 0;
+    for (let it = 0; it < 1000; it++) {
+      let x2;
+      if (rnd() < 2 / (1.7724538509055159 * y + 2)) x2 = -Math.log(rnd() * rnd());
+      else { const cs = Math.cos(1.5707963267948966 * rnd()); x2 = -Math.log(rnd()) - Math.log(rnd()) * cs * cs; }
+      x = Math.sqrt(x2); mut = 2 * rnd() - 1;
+      if (rnd() * (y + x) < Math.sqrt(Math.max(0, y * y + x2 - 2 * y * x * mut))) break;
+    }
+    const st = x * Math.sqrt(kT / A), sin = Math.sqrt(Math.max(0, 1 - mut * mut)), ph = 6.283185307179586 * rnd();
+    tx = st * sin * Math.cos(ph); ty = st * sin * Math.sin(ph); tz = st * mut;
+  }
+  const A1 = A + 1;
+  const cx = A * tx / A1, cy = A * ty / A1, cz = (sn + A * tz) / A1;          // centre-of-mass velocity (units sqrt(MeV))
+  const rx = -tx, ry = -ty, rz = sn - tz, f = A / A1 * Math.sqrt(rx * rx + ry * ry + rz * rz);
+  const m0 = 2 * rnd() - 1, s0 = Math.sqrt(1 - m0 * m0), p0 = 6.283185307179586 * rnd();
+  const nx = cx + f * s0 * Math.cos(p0), ny = cy + f * s0 * Math.sin(p0), nz = cz + f * m0;
+  const e2 = nx * nx + ny * ny + nz * nz;
+  _msE = e2; _msC = e2 > 0 ? nz / Math.sqrt(e2) : 1;
+}
+// job = { n0, iso: [{ r, A, kT, tot: {E, xs}, el: {E, xs} | null }], ch: [{ r, E, xs }] }
+// returns, per channel, the yield from collisions after the first (per incident neutron) at incident energy E0.
+function msTally(job, E0, H, seed) {
+  const { n0, iso, ch } = job, ni = iso.length, nc = ch.length, out = new Float64Array(nc);
+  const sT = new Float64Array(ni), sE = new Float64Array(ni), rnd = rng32(seed);
+  const xsAt = E => {
+    let S = 0;
+    for (let i = 0; i < ni; i++) { const o = iso[i]; sT[i] = o.r * interpLin(o.tot.E, o.tot.xs, E); sE[i] = o.el ? o.r * interpLin(o.el.E, o.el.xs, E) : 0; S += sT[i]; }
+    return S;
+  };
+  const S0 = xsAt(E0);
+  if (!(S0 > 0)) return out;
+  const tau = n0 * S0;
+  if (tau < 1e-3) return out;                                       // thin: the correction is below about 0.1 %
+  const pint = -Math.expm1(-tau);
+  for (let h = 0; h < H; h++) {
+    let w = pint, E = E0, mu = 1, u = -Math.log(1 - rnd() * pint) / S0, S = xsAt(E0), n = 0;
+    for (;;) {
+      if (n > 0) {                                                  // flight to the next collision
+        S = xsAt(E);
+        if (!(S > 0)) break;
+        u += -Math.log(1 - rnd()) / S * mu;
+        if (u < 0 || u > n0) break;
+        for (let c = 0; c < nc; c++) out[c] += w * ch[c].r * interpLin(ch[c].E, ch[c].xs, E) / S;
+      }
+      let x = rnd() * S, i = 0;                                     // isotope of the collision
+      while (i < ni - 1 && x >= sT[i]) { x -= sT[i]; i++; }
+      if (!(sT[i] > 0)) break;
+      w *= sE[i] / sT[i];                                           // only elastic scattering continues
+      if (!(w > 0)) break;
+      if (w < 1e-5) { if (rnd() < 0.1) w *= 10; else break; }
+      msScatter(E, iso[i].A, iso[i].kT, rnd);
+      if (!(_msE > 0)) break;
+      const sin = Math.sqrt(Math.max(0, 1 - mu * mu)) * Math.sqrt(Math.max(0, 1 - _msC * _msC));
+      mu = mu * _msC + sin * Math.cos(6.283185307179586 * rnd());
+      E = _msE;
+      if (++n > (job.maxColl || 400)) break;
+    }
+  }
+  for (let c = 0; c < nc; c++) out[c] /= H;
+  return out;
+}
+// Energies at which the correction is computed: the grid points of all tables, thinned so that neither ln E nor the
+// total cross section changes by more than a small step between neighbours (at most maxN points).
+function msNodes(grids, emin, emax, sigOf, maxN) {
+  const pts = [emin, emax];
+  for (const g of grids) { const a = lowerBound(g, emin), b = upperBound(g, emax); for (let i = a; i < b; i++) pts.push(g[i]); }
+  const q = Float64Array.from(pts).sort();
+  const sv = new Float64Array(q.length);
+  for (let i = 0; i < q.length; i++) sv[i] = sigOf(q[i]);
+  for (let f = 1; f < 64; f *= 2) {
+    const dE = 0.02 * f, dS = 0.05 * f, out = [];
+    let le = 0, ls = 0;
+    for (let i = 0; i < q.length; i++) {
+      if (i > 0 && q[i] === q[i - 1]) continue;
+      if (!out.length || Math.log(q[i] / le) >= dE || Math.abs(Math.log((sv[i] + 1e-12) / (ls + 1e-12))) >= dS || i === q.length - 1) { out.push(q[i]); le = q[i]; ls = sv[i]; }
+    }
+    if (out.length <= maxN) return Float64Array.from(out);
+  }
+  return Float64Array.from([emin, emax]);
+}
+
 // Optional self-shielding: tot = MT1 reaction, nAtB = sample areal density in atoms/barn.
 // Slab, first-collision model: factor (1-exp(-tau))/tau with tau = nAtB * sigma_tot(E).
-function integrate(rx, flux, scale, emin, emax, tot, nAtB) {
+function integrate(rx, flux, scale, emin, emax, tot, nAtB, ms) {
   const res = { E: new Float64Array(0), sig: new Float64Array(0), phi: new Float64Array(0), rho: new Float64Array(0), cum: new Float64Array(0), rhoThin: new Float64Array(0), total: 0, totalThin: 0, tauMax: 0 };
   const tl = Array.isArray(tot) ? tot : (tot ? [{ E: tot.E, xs: tot.xs, w: nAtB }] : []);
   const shield = tl.length > 0 && nAtB > 0;
@@ -706,7 +848,7 @@ function integrate(rx, flux, scale, emin, emax, tot, nAtB) {
   }
   const N = E.length;
   const sig = new Float64Array(N), phi = new Float64Array(N), rho = new Float64Array(N), cum = new Float64Array(N), thin = new Float64Array(N);
-  let thinSum = 0, tauMax = 0;
+  let thinSum = 0, tauMax = 0, mj = 0;
   for (let i = 0; i < N; i++) {
     sig[i] = interpLin(xe, rx.xs, E[i]);
     phi[i] = scale * interpLog(fe, flux.V, E[i]);
@@ -719,6 +861,21 @@ function integrate(rx, flux, scale, emin, emax, tot, nAtB) {
       ss = tau < 1e-6 ? 1 - tau / 2 : -Math.expm1(-tau) / tau;
     }
     rho[i] = thin[i] * ss;
+    if (ms && shield && ms.an) {                                      // second collision, analytic: rho/phi = 1e-24 sigma (Sigma_el / Sigma_t^2) G(T) n0 / n0
+      let tau = 0, tel = 0;
+      for (let k = 0; k < tl.length; k++) tau += tl[k].w * interpLin(tl[k].E, tl[k].xs, E[i]);
+      for (let k = 0; k < ms.an.el.length; k++) tel += ms.an.el[k].w * interpLin(ms.an.el[k].E, ms.an.el[k].xs, E[i]);
+      if (tau > 1e-6 && tel > 0) rho[i] += 1e-24 * phi[i] * sig[i] * tel * slabGfast(tau) / (tau * tau);
+    } else if (ms && shield) {                                        // multiple-scattering yield added: rho/phi = 1e-24 * (sigma ss + Y_ms / (ratio n0))
+      const le = Math.log(E[i]), L = ms.lnE, nl = L.length;
+      if (nl > 1 && le >= L[0] && le <= L[nl - 1]) {
+        while (mj < nl - 2 && L[mj + 1] < le) mj++;
+        while (mj > 0 && L[mj] > le) mj--;
+        const t = (le - L[mj]) / (L[mj + 1] - L[mj]), yms = ms.Y[mj] + (ms.Y[mj + 1] - ms.Y[mj]) * (t > 0 ? t : 0);
+        if (yms > 0) rho[i] += 1e-24 * phi[i] * yms / (ms.ratio * nAtB);
+      }
+    }
+    if (ms && shield) { const cap = 1e-24 * phi[i] / (ms.ratio * nAtB); if (rho[i] > cap) rho[i] = cap; }      // a yield cannot exceed 1
     if (i > 0) {
       const dl = Math.log(E[i] / E[i - 1]);
       cum[i] = cum[i - 1] + 0.5 * (rho[i] + rho[i - 1]) * dl;
@@ -8608,7 +8765,7 @@ const $ = id => document.getElementById(id);
 const S = {
   blob: null, tables: [], tab: null, tabIdx: -1, rx: null,
   dens: NaN, densUser: false, Z: -1, facId: 'fac0', fluxSource: 'Fluxes01.txt', f: 1, L: 1, mass: 1, area: Math.PI, ss: true, nAtB: 0, totXs: null, emin: 1e-8, emax: 100, rateLog: true, rateSample: false, rateKind: 'rate', atoms: 0, zx: null,
-  custom: {}, filter: '', res: null, token: 0, comps: [], mpa: 0, shield: [], rxs: [], mts: new Set(), viewAll: false, resOn: false, resW: 0, resK: 'fwhm', pulse: {}, tg: {}, tofAxis: false, extraRes: [], items: [], view: '', decView: 'follow', rxView: null
+  custom: {}, filter: '', res: null, token: 0, ssModel: 'first', msN: 2000, msCache: null, msBusy: null, msTok: 0, msUsed: false, msView: null, comps: [], mpa: 0, shield: [], rxs: [], mts: new Set(), viewAll: false, resOn: false, resW: 0, resK: 'fwhm', pulse: {}, tg: {}, tofAxis: false, extraRes: [], items: [], view: '', decView: 'follow', rxView: null
 };
 const facOf = id => FAC.find(f => f.id === id);
 const curFac = () => facOf(S.facId);
@@ -8949,8 +9106,8 @@ function resParts(F) {
   return { sp, sa, s: Math.sqrt(sp * sp + sa * sa), tg, tgOn: tg.mode === 'rf' || tg.dL > 0 };
 }
 function resParams(F) { const pr = resParts(F); return S.resOn && (pr.s > 0 || pr.tgOn) ? { L: resL(F), sigT: pr.s, tg: pr.tgOn ? pr.tg : null } : null; }
-function integrateR(rx, flux, sc, emin, emax, tot, nAtB, rp) {
-  const r = integrate(rx, flux, sc, emin, emax, tot, nAtB);
+function integrateR(rx, flux, sc, emin, emax, tot, nAtB, rp, ms) {
+  const r = integrate(rx, flux, sc, emin, emax, tot, nAtB, ms);
   return rp ? applyResolution(r, rp.L, rp.sigT, rp.tg) : r;
 }
 
@@ -8997,9 +9154,32 @@ function update() {
   for (const c of S.comps) if (c.tab && c.ratio > 0) { const tr = c.tab.rxs.find(r => r.mt === 1); if (tr) S.shield.push({ E: tr.E, xs: tr.xs, w: S.nAtB * c.ratio }); }
   const RP = resParams(F);
   const act = S.comps.filter(c => c.tab && c.ratio > 0);
+  // ---- multiple-scattering correction (Monte Carlo): computed in the background, cached, applied when ready
+  const isoTabs = [{ r: 1, tab: t }].concat(act.map(c => ({ r: c.ratio, tab: c.tab })));
+  const chList = S.rxs.map(rx => ({ id: 'p:' + rx.mt, r: 1, rx }));
+  act.forEach(c => { const g = 'c' + S.comps.indexOf(c); c.mts.forEach(i => { const rx = c.tab.rxs[i]; if (rx) chList.push({ id: g + ':' + rx.mt, r: c.ratio, rx }); }); });
+  const modelOn = S.nAtB > 0 && !!S.totXs && chList.length > 0;
+  const useMs = S.ssModel === 'ms' && modelOn, useAn = S.ssModel === 'ms1' && modelOn;
+  // elastic cross sections (MT 2) with the same weights as the shielding list, for the analytic second-collision term
+  const elas = [];
+  if (useAn) isoTabs.forEach(o => { const e = o.tab.rxs.find(r => r.mt === 2); if (e) elas.push({ E: e.E, xs: e.xs, w: S.nAtB * o.r }); });
+  let msC = null;
+  if (useMs) {
+    const key = [S.nAtB.toPrecision(9), S.msN, S.emin, S.emax].concat(isoTabs.map(o => o.r + '*' + S.tables.indexOf(o.tab) + '@' + o.tab.temp), chList.map(c => c.id)).join('|');
+    if (S.msCache && S.msCache.key === key) msC = S.msCache;
+    else if (S.msBusy !== key) msStart(key, isoTabs, chList);
+  } else { S.msTok++; S.msBusy = null; }
+  S.msUsed = !!msC || useAn;
+  const msFor = (ids, ratio) => {
+    if (useAn) return { an: { el: elas }, ratio };
+    if (!msC) return null;
+    const Y = new Float64Array(msC.lnE.length);
+    for (const id of ids) { const a = msC.Y[id]; if (a) for (let i = 0; i < Y.length; i++) Y[i] += a[i]; }
+    return { lnE: msC.lnE, Y, ratio };
+  };
   const mk = (grp, gname, ratio, list) => {
-    const out = list.map(rx => ({ key: grp + ':mt:' + rx.mt, grp, gname, ratio, rx, sum: false, res: integrateR(rx, fluxOf(F), sc, S.emin, S.emax, S.shield, S.nAtB, RP) }));
-    if (list.length > 1) { const sx = sumRx(list); out.push({ key: grp + ':sum', grp, gname, ratio, rx: sx, sum: true, res: integrateR(sx, fluxOf(F), sc, S.emin, S.emax, S.shield, S.nAtB, RP) }); }
+    const out = list.map(rx => { const ms = msFor([grp + ':' + rx.mt], ratio); return { key: grp + ':mt:' + rx.mt, grp, gname, ratio, rx, sum: false, ms, res: integrateR(rx, fluxOf(F), sc, S.emin, S.emax, S.shield, S.nAtB, RP, ms) }; });
+    if (list.length > 1) { const sx = sumRx(list), ms = msFor(list.map(rx => grp + ':' + rx.mt), ratio); out.push({ key: grp + ':sum', grp, gname, ratio, rx: sx, sum: true, ms, res: integrateR(sx, fluxOf(F), sc, S.emin, S.emax, S.shield, S.nAtB, RP, ms) }); }
     return out;
   };
   let items = mk('p', t.label + (act.length ? ' (primary)' : ''), 1, S.rxs);
@@ -9009,7 +9189,8 @@ function update() {
   if (gts.length > 1) {
     const sx = sumRx(gts.map(x => x.rx), gts.map(x => x.ratio));
     sx.sym = 'Σ all isotopes';
-    items.push({ key: 'all:total', grp: 'all', gname: 'Compound (all isotopes)', ratio: 1, rx: sx, sum: true, all: true, gts, res: integrateR(sx, fluxOf(F), sc, S.emin, S.emax, S.shield, S.nAtB, RP) });
+    const msA = msFor(chList.map(c => c.id), 1);
+    items.push({ key: 'all:total', grp: 'all', gname: 'Compound (all isotopes)', ratio: 1, rx: sx, sum: true, all: true, gts, ms: msA, res: integrateR(sx, fluxOf(F), sc, S.emin, S.emax, S.shield, S.nAtB, RP, msA) });
   }
   S.items = items;
   // when the selection changes so that a sum appears (several reactions or several isotopes), show the sum
@@ -9020,7 +9201,7 @@ function update() {
     if (top) S.view = top.key;
   }
   const vi = items.find(x => x.key === S.view) || items.find(x => x.all) || items.find(x => x.sum) || items[0];
-  S.view = vi.key; S.rxView = vi.rx;
+  S.view = vi.key; S.rxView = vi.rx; S.msView = vi.ms || null;
   const di = S.decView === 'follow' ? vi : (items.find(x => x.key === S.decView) || vi);
   const ilab = it => it.all ? 'Σ over isotopes, weighted by atoms' : it.sum ? 'Σ selected reactions' : it.rx.sym + ' · MT ' + it.rx.mt;
   const iname = it => it.all ? 'Σ all isotopes' : (it.grp === 'p' ? '' : it.gname + ' ') + (it.sum ? 'Σ selected' : it.rx.sym + ' (MT ' + it.rx.mt + ')');
@@ -9047,6 +9228,16 @@ function update() {
   $('ssInfo').textContent = S.ss
     ? (S.area > 0 ? 'Areal density ' + sciTxt(S.nAtB, 3) + ' atoms/b' + (S.dens > 0 ? ' · thickness ' + g3(S.mass * 1e-3 / (S.dens * S.area) * 1e4) + ' µm' : '') + ' · peak optical depth ' + sciTxt(res.tauMax, 2) + ' · rate = ' + (100 * reduction).toFixed(reduction < 0.1 ? 2 : 1) + ' % of the thin-sample value' : 'Enter a beam spot radius above zero.')
     : 'Thin-sample rate (no self-shielding).';
+  (() => {                                                           // status of the multiple-scattering model
+    const st = $('msStat');
+    if (S.ssModel === 'first') { st.textContent = ''; return; }
+    if (!(S.nAtB > 0)) { st.textContent = 'Multiple scattering needs self-shielding (tick it) and a beam spot radius above zero.'; return; }
+    if (S.ssModel === 'ms1' && !S.rxs.length) { st.textContent = ''; return; }
+    if (!S.msUsed) return;                                           // the runner is writing the progress
+    const a = integrate(vi.rx, fluxOf(F), sc, S.emin, S.emax, S.shield, S.nAtB, vi.ms), b = integrate(vi.rx, fluxOf(F), sc, S.emin, S.emax, S.shield, S.nAtB, null);
+    const gain = b.total > 0 ? 100 * (a.total / b.total - 1) : 0;
+    st.textContent = (S.ssModel === 'ms1' ? 'Second-collision correction on (analytic, elastic scattering from MT 2' + (S.shield.length > 1 || true ? '' : '') + '). ' : 'Multiple-scattering correction on: ' + S.msCache.nodes + ' energies × ' + S.msN + ' histories (' + S.msCache.sec.toFixed(1) + ' s). ') + 'The total rate of the chosen reaction is ' + (gain >= 0 ? '+' : '') + gain.toFixed(gain < 1 ? 2 : 1) + ' % compared with the first-collision model.';
+  })();
 
   (() => {
     const pr = resParts(F), LF = resL(F), K = 2.354820045;
@@ -9200,12 +9391,34 @@ function bindComps() {
   });
 }
 
+// Background Monte Carlo run for the multiple-scattering correction (chunks of about 25 ms so the page stays responsive).
+function msStart(key, isoTabs, chList) {
+  const iso = isoTabs.map(o => ({ r: o.r, A: o.tab.awr, kT: o.tab.temp, tot: o.tab.rxs.find(r => r.mt === 1), el: o.tab.rxs.find(r => r.mt === 2) || null })).filter(o => o.tot);
+  const job = { n0: S.nAtB, iso, ch: chList.map(c => ({ r: c.r, E: c.rx.E, xs: c.rx.xs })) };
+  const sigOf = E => { let v = 0; for (const o of iso) v += o.r * interpLin(o.tot.E, o.tot.xs, E); return v; };
+  const nodes = msNodes(iso.map(o => o.tot.E), S.emin, S.emax, sigOf, 6000);
+  const tok = ++S.msTok, N = nodes.length, Yc = chList.map(() => new Float64Array(N)), stat = $('msStat'), t0 = performance.now(), H = S.msN;
+  S.msBusy = key;
+  let i = 0;
+  const step = () => {
+    if (tok !== S.msTok) return;
+    const t1 = performance.now();
+    while (i < N && performance.now() - t1 < 25) { const y = msTally(job, nodes[i], H, 1234567 + i); for (let c = 0; c < y.length; c++) Yc[c][i] = y[c]; i++; }
+    if (i < N) { stat.textContent = 'Multiple-scattering correction: computing ' + Math.round(100 * i / N) + ' % (' + N + ' energies × ' + H + ' histories)…'; setTimeout(step, 0); return; }
+    const Y = {}; chList.forEach((c, k) => { Y[c.id] = Yc[k]; });
+    S.msCache = { key, lnE: Float64Array.from(nodes, Math.log), Y, nodes: N, sec: (performance.now() - t0) / 1000 };
+    S.msBusy = null;
+    update();
+  };
+  stat.textContent = 'Multiple-scattering correction: computing…';
+  setTimeout(step, 0);
+}
 function renderCompare(atoms) {
   const t = S.tab, rows = [];
   for (const F of FAC) {
     const mine = F.id === S.facId;
     const f = mine ? S.f : F.f, L = mine ? S.L : F.L;
-    const r = integrateR(S.rxView, fluxOf(F), (f / F.f) * Math.pow(F.L / L, 2), S.emin, S.emax, S.shield, S.nAtB, resParams(F));
+    const r = integrateR(S.rxView, fluxOf(F), (f / F.f) * Math.pow(F.L / L, 2), S.emin, S.emax, S.shield, S.nAtB, resParams(F), S.msView);
     rows.push({ F, f, L, mine, pa: r.total, ps: r.total * atoms, pp: r.total * atoms / f });
   }
   const mx = Math.max.apply(null, rows.map(r => r.pa));
@@ -9323,7 +9536,7 @@ function renderCharts() {
     const r = x.res, a = Math.max(0, lowerBound(r.E, x0) - 1), b = Math.min(r.E.length, upperBound(r.E, x1) + 1);
     return { name: x.name, color: RC[(k + 1) % RC.length], E: r.E.subarray(a, b), sig: r.sig.subarray(a, b), rho: r.rho.subarray(a, b).map(v => v * kN), rho0: r.rho.subarray(a, b), phi: r.phi.subarray(a, b) };
   });
-  $('axReset').disabled = !S.zx;
+  $('axReset').disabled = !S.zx && !(S.yr && Object.keys(S.yr).length);
   const l0 = Math.log(x0), l1 = Math.log(x1);
   const tofMode = S.tofAxis, LT = (S.resOn ? resL(curFac()) : curFac().L);
   const lt0 = Math.log(tofNs(x1, LT)), lt1 = Math.log(tofNs(x0, LT));
@@ -9366,7 +9579,7 @@ function renderCharts() {
   let svg = '<svg viewBox="0 0 ' + W + ' ' + totalH + '" width="' + W + '" height="' + totalH + '" role="img" aria-label="Fluence, cross section and rate density against neutron energy">';
   panels.forEach((p, pi) => {
     const py = p.py + p.hd;
-    svg += '<text class="ttl" x="' + ml + '" y="' + (p.py + 14) + '">' + p.title + '<tspan dx="8" style="font-weight:400;fill:var(--ink2)">' + p.unit + '</tspan></text>';
+    svg += '<text class="ttl" x="' + ml + '" y="' + (p.py + 14) + '">' + p.title + '<tspan dx="8" style="font-weight:400;fill:var(--ink2)">' + p.unit + '</tspan>' + (S.yr && S.yr[p.id + (p.nm || '')] ? '<tspan dx="8" style="font-weight:400;fill:var(--warn)">[y zoomed]</tspan>' : '') + '</text>';
     p.leg.forEach(e => {
       const ly = p.py + 14 + 16 * (e.row + 1);
       svg += '<line x1="' + e.x.toFixed(1) + '" x2="' + (e.x + 18).toFixed(1) + '" y1="' + (ly - 4) + '" y2="' + (ly - 4) + '" style="stroke:' + e.color + '" stroke-width="2"' + (e.dash ? ' stroke-dasharray="' + e.dash + '"' : '') + '/><text x="' + (e.x + 23).toFixed(1) + '" y="' + ly + '" style="fill:var(--ink2)">' + esc(e.name) + '</text>';
@@ -9380,19 +9593,29 @@ function renderCharts() {
       if (b - a < 2) a = b - 2;
       const maxSpan = (p.ex || []).length ? 18 : 10;
       if (b - a > maxSpan) a = b - maxSpan;
+      const yrm = S.yr && S.yr[p.id + (p.nm || '')];
+      if (yrm && yrm.lo > 0) { a = Math.log10(yrm.lo); b = Math.log10(yrm.hi); }
+      p.yman = !!yrm;
       yf = v => H - (Math.log10(v) - a) / (b - a) * H;
       const st = (b - a) > 14 ? 3 : (b - a) > 7 ? 2 : 1;
-      for (let k = b; k >= a; k -= st) ytk.push({ y: yf(Math.pow(10, k)), label: p10(k) });
+      if (yrm) {
+        const s2 = (b - a) < 0.6 ? [1, 1.5, 2, 3, 4, 5, 6, 7, 8, 9] : (b - a) < 1.6 ? [1, 2, 5] : [1];
+        for (let k = Math.floor(a) - 1; k <= Math.ceil(b); k++) for (const m of s2) { const v = m * Math.pow(10, k); if (v >= Math.pow(10, a) * 0.9999 && v <= Math.pow(10, b) * 1.0001) ytk.push({ y: yf(v), label: m === 1 ? p10(k) : sciTxt(v, 1) }); }
+      } else for (let k = b; k >= a; k -= st) ytk.push({ y: yf(Math.pow(10, k)), label: p10(k) });
       p.inv = yr => Math.pow(10, a + (H - yr) / H * (b - a));
     } else {
       let mx = 0;
       for (const A of [p.Y].concat(p.Y2 ? [p.Y2] : [], p.Y3 ? [p.Y3] : [], (p.ex || []).map(e => e.Y))) for (let i = 0; i < A.length; i++) if (A[i] > mx) mx = A[i];
       if (!(mx > 0)) mx = 1;
-      const step = niceStep(mx * 1.05 / 3);
-      const top0 = Math.ceil(mx * 1.02 / step) * step;
-      yf = v => H - v / top0 * H;
-      p.inv = yr => (H - yr) / H * top0;
-      for (let v = 0; v <= top0 * 1.0001; v += step) ytk.push({ y: yf(v), label: v === 0 ? '0' : sciTxt(v, 2) });
+      let step = niceStep(mx * 1.05 / 3);
+      let top0 = Math.ceil(mx * 1.02 / step) * step, bot0 = 0;
+      const yrm = S.yr && S.yr[p.id + (p.nm || '')];
+      if (yrm) { bot0 = yrm.lo; top0 = yrm.hi; step = niceStep((top0 - bot0) / 3); }
+      p.yman = !!yrm;
+      yf = v => H - (v - bot0) / (top0 - bot0) * H;
+      p.inv = yr => bot0 + (H - yr) / H * (top0 - bot0);
+      const k0 = Math.ceil(bot0 / step - 1e-9), k1 = Math.min(k0 + 40, Math.floor(top0 / step + 1e-9));
+      for (let k = k0; k <= k1; k++) { const v = k * step; ytk.push({ y: yf(v), label: Math.abs(v) < step * 1e-6 ? '0' : sciTxt(v, 3) }); }
     }
     svg += '<g transform="translate(0,' + py + ')"><clipPath id="cp' + pi + '"><rect x="' + ml + '" y="0" width="' + pw + '" height="' + H + '"/></clipPath>';
     svg += '<rect x="' + ml + '" y="0" width="' + pw + '" height="' + H + '" fill="none" stroke="var(--line)"/>';
@@ -9438,38 +9661,51 @@ function renderCharts() {
   svg += '<text id="yval" x="' + (ml + pw - 4) + '" y="-10" text-anchor="end" pointer-events="none" style="fill:var(--ink);font-weight:600;paint-order:stroke;stroke:var(--panel);stroke-width:4px;stroke-linejoin:round"></text>';
   svg += '<line id="cross" y1="' + top + '" y2="' + (by) + '" x1="-10" x2="-10" style="stroke:var(--ink)" stroke-width="1" opacity="0.6"/>';
   svg += '<rect id="selbox" x="0" y="' + top + '" width="0" height="' + (by - top) + '" fill="var(--accent)" opacity="0.18" stroke="var(--accent)"/>';
-  svg += '<rect class="hit" id="hit" x="' + ml + '" y="' + top + '" width="' + pw + '" height="' + (by - top) + '"/>';
+  svg += '<rect class="hit" id="hit" x="' + ml + '" y="' + top + '" width="' + pw + '" height="' + (totalH - top) + '"/>';
   svg += '</svg>';
   host.innerHTML = svg;
 
   const hit = $('hit'), cross = $('cross'), ro = $('readout'), box = $('selbox'), hcross = $('hcross'), yval = $('yval');
   // the y value (in the units of the panel under the pointer) is shown on a horizontal guide line
-  const yAt = ev => {
+  const yAt = (ev, pin) => {
     const r = host.firstChild.getBoundingClientRect(), y = (ev.clientY - r.top) * (totalH / r.height);
+    if (pin) { const y0 = pin.py + pin.hd, yc = Math.max(y0, Math.min(y0 + H, y)); return { y: yc, p: pin, v: pin.inv(yc - y0) }; }   // while dragging, stay inside the panel where the box started
     for (const p of panels) { const y0 = p.py + p.hd; if (y >= y0 && y <= y0 + H && p.inv) return { y, p, v: p.inv(y - y0) }; }
     return null;
   };
   const hideY = () => { hcross.setAttribute('y1', -10); hcross.setAttribute('y2', -10); yval.setAttribute('y', -10); yval.textContent = ''; };
   const pxOf = ev => { const r = host.firstChild.getBoundingClientRect(); return Math.max(ml, Math.min(ml + pw, (ev.clientX - r.left) * (W / r.width))); };
   const eOf = px => tofMode ? tofToE(Math.exp(lt0 + (px - ml) / pw * (lt1 - lt0)), LT) : Math.exp(l0 + (px - ml) / pw * (l1 - l0));
-  let drag = null;
-  hit.addEventListener('pointerdown', ev => { drag = pxOf(ev); try { hit.setPointerCapture(ev.pointerId); } catch (e) { } });
+  let drag = null, dragY = null;
+  hit.addEventListener('pointerdown', ev => { drag = pxOf(ev); dragY = yAt(ev); try { hit.setPointerCapture(ev.pointerId); } catch (e) { } });
   const endDrag = ev => {
     if (drag === null) return;
-    const a = drag, b = pxOf(ev);
-    drag = null;
+    const a = drag, b = pxOf(ev), y0 = dragY, y1 = y0 ? yAt(ev, y0.p) : null;
+    drag = null; dragY = null;
     box.setAttribute('width', 0);
+    let chg = false;
     if (Math.abs(b - a) > 6) {
       const e1 = eOf(a), e2 = eOf(b), ea = Math.min(e1, e2), eb = Math.max(e1, e2);
-      if (eb / ea > 1.02) { S.zx = [ea, eb]; renderCharts(); }
+      if (eb / ea > 1.02) { S.zx = [ea, eb]; chg = true; }
     }
+    if (ev.shiftKey && y0 && y1 && y0.p === y1.p && Math.abs(y1.y - y0.y) > 6) {
+      const lo = Math.min(y0.v, y1.v), hi = Math.max(y0.v, y1.v);
+      if (hi > lo && (y0.p.log ? (lo > 0 && hi / lo > 1.05) : (hi - lo) > 1e-6 * Math.max(Math.abs(hi), Math.abs(lo)))) { (S.yr = S.yr || {})[y0.p.id + (y0.p.nm || '')] = { lo, hi }; chg = true; }
+    }
+    if (chg) renderCharts();
   };
   hit.addEventListener('pointerup', endDrag);
-  hit.addEventListener('pointercancel', () => { drag = null; box.setAttribute('width', 0); });
-  hit.addEventListener('dblclick', () => { S.zx = null; renderCharts(); });
+  hit.addEventListener('pointercancel', () => { drag = null; dragY = null; box.setAttribute('width', 0); });
+  hit.addEventListener('dblclick', () => { S.zx = null; S.yr = {}; renderCharts(); });
   const show = ev => {
     const px = pxOf(ev);
-    if (drag !== null) { box.setAttribute('x', Math.min(drag, px)); box.setAttribute('width', Math.abs(px - drag)); }
+    if (drag !== null) {
+      box.setAttribute('x', Math.min(drag, px)); box.setAttribute('width', Math.abs(px - drag));
+      const cy = dragY ? yAt(ev, dragY.p) : null;
+      if (ev.shiftKey && dragY && cy) {
+        box.setAttribute('y', Math.min(dragY.y, cy.y)); box.setAttribute('height', Math.abs(cy.y - dragY.y));
+      } else { box.setAttribute('y', top); box.setAttribute('height', by - top); }
+    }
     const E = eOf(px);
     if (!(E >= x0 && E <= x1)) return;
     cross.setAttribute('x1', px); cross.setAttribute('x2', px);
@@ -9580,7 +9816,7 @@ function runInfo() {
   return [
     F.name + ' · flight path ' + g(S.L) + ' m · repetition rate ' + g(S.f) + ' Hz',
     'Isotope' + (isos.length > 1 ? 's' : '') + ': ' + (isos.join(' + ') || '?') + ' · reaction' + (chans.length > 1 ? 's' : '') + ': ' + (chans.join('; ') || '?') + (S.libName ? ' · library: ' + S.libName : ''),
-    'Sample: radius ' + g(r) + ' cm · mass ' + g(S.mass) + ' mg · thickness ' + g(nAtB) + ' atoms/b' + (thick > 0 ? ' (' + g(thick) + ' µm)' : ''),
+    'Sample: radius ' + g(r) + ' cm · mass ' + g(S.mass) + ' mg · thickness ' + g(nAtB) + ' atoms/b' + (thick > 0 ? ' (' + g(thick) + ' µm)' : '') + ' · self-shielding: ' + (!(S.nAtB > 0) ? 'off' : (S.ssModel === 'ms' && S.msUsed ? 'multiple scattering, Monte Carlo (' + S.msN + ' histories)' : S.ssModel === 'ms1' ? 'first + second collision (analytic)' : 'first collision')),
     resTx
   ];
 }
@@ -9978,7 +10214,7 @@ function nuclBind() {
     $('nuclSt').textContent = nuclInfo({ Z, A, N: A - Z }) + ' — click it to select.';
   };
   nSearch.addEventListener('keydown', ev => { ev.stopPropagation(); if (ev.key === 'Enter') { ev.preventDefault(); nuclFind(); } });
-  if (window.ResizeObserver) new ResizeObserver(() => nuclResize()).observe($('nuclBody'));
+  if (window.ResizeObserver) new ResizeObserver(() => requestAnimationFrame(() => nuclResize())).observe($('nuclBody'));
   window.addEventListener('resize', () => nuclResize());
   cv.addEventListener('wheel', ev => { ev.preventDefault(); const r = cv.getBoundingClientRect(); nuclZoom(ev.deltaY < 0 ? 1.18 : 1 / 1.18, ev.clientX - r.left, ev.clientY - r.top); }, { passive: false });
   const ptr = new Map(); let moved = 0, last = null, pinch = 0, start = null, action = null;
@@ -10120,7 +10356,7 @@ function bind() {
   $('densReset').addEventListener('click', () => { S.densUser = false; applyElementDensity(); update(); });
   $('emin').addEventListener('input', () => { S.emin = readNum('emin'); S.zx = null; schedule(); });
   $('emax').addEventListener('input', () => { S.emax = readNum('emax'); S.zx = null; schedule(); });
-  $('axReset').addEventListener('click', () => { S.zx = null; if (S.res) renderCharts(); });
+  $('axReset').addEventListener('click', () => { S.zx = null; S.yr = {}; if (S.res) renderCharts(); });
   const setArea = () => {
     const r = readNum('area');
     S.area = r > 0 ? Math.PI * r * r : 0;
@@ -10129,6 +10365,9 @@ function bind() {
   setArea();
   $('area').addEventListener('input', () => { setArea(); syncThick(); schedule(); });
   $('ss').addEventListener('change', e => { S.ss = e.target.checked; update(); });
+  $('ssModel').addEventListener('change', e => { S.ssModel = e.target.value; $('msN').disabled = S.ssModel !== 'ms'; update(); });
+  $('msN').addEventListener('input', () => { const n = Math.round(readNum('msN')); if (n >= 100) { S.msN = Math.min(n, 200000); schedule(); } });
+  $('msN').disabled = true;
   const setAxis = log => { S.rateLog = log; $('axLin').setAttribute('aria-pressed', String(!log)); $('axLog').setAttribute('aria-pressed', String(log)); if (S.res) renderCharts(); };
   const setNorm = s => { S.rateSample = s; $('nrAtom').setAttribute('aria-pressed', String(!s)); $('nrSample').setAttribute('aria-pressed', String(s)); if (S.res) renderCharts(); };
   const setKind = k => { S.rateKind = k; $('qRate').setAttribute('aria-pressed', String(k === 'rate')); $('qYield').setAttribute('aria-pressed', String(k === 'yield')); $('nrAtom').disabled = $('nrSample').disabled = k === 'yield'; update(); };
@@ -10201,7 +10440,7 @@ function bind() {
   $('fxClear').addEventListener('click', () => { delete S.custom[S.facId]; setStatus('fxStatus', 'Using ' + S.fluxSource + ' (' + curFac().flux.E.length + ' points).'); update(); });
   if (window.ResizeObserver) {
     let w = 0;
-    new ResizeObserver(en => { const nw = Math.floor(en[0].contentRect.width); if (nw !== w) { w = nw; if (S.res) renderCharts(); } }).observe($('chartHost'));
+    new ResizeObserver(en => { const nw = Math.floor(en[0].contentRect.width); if (nw !== w) { w = nw; requestAnimationFrame(() => { if (S.res) renderCharts(); }); } }).observe($('chartHost'));
   }
 }
 
