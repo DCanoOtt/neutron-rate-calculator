@@ -212,7 +212,7 @@ table.t .cfg { color: var(--ink2); font-size: 12px; }
             <p><b>Resolution (time of flight), in the Facility group.</b> Switches the resolution function on. <i>Pulse width</i> starts at the value of the selected beam line (n_TOF: σ = 7 ns, shown as 16.484 ns FWHM; NFS 5.6 ns, DONES 5.6 ns, GELINA 1 ns); you can overwrite it, and it is remembered for each beam line until <i>Reset to nominal</i>. <i>Added width</i> adds other contributions (default 0). The select chooses whether those two widths are FWHM or σ. <i>Target / moderator spread</i> adds the contribution of the production target and moderator. <i>Monte Carlo RF</i> (default for EAR1, EAR2 and NEAR) replaces the target spread by a resolution function. The EAR1 and EAR2 functions come from Monte Carlo histograms, parameterised with smoothed spline parameters so that statistical spikes and valleys of the histograms do not appear. The NEAR (6 m) function was not simulated: it was extrapolated from the EAR1 and EAR2 target-only functions (quantiles linear in ln L, with no extrapolation below 0.3 eV where the thermal shapes differ) and refitted, so treat it as indicative. For EAR1 and NEAR the proton pulse (σ = 7 ns, shown as FWHM) is added by the page. For EAR2 (19.55 m) it already contains the proton pulse (7 ns RMS) and the target and moderator, so the pulse width and ΔL fields are disabled and only <i>Additional width</i> still applies. For EAR1 (185 m, FLUKA) it contains the target and moderator only: the proton pulse is added as a Gaussian in time, with a default of 7 ns RMS (16.48 ns FWHM, shown in the pulse field in the units chosen below) that you can change. The flight path of the resolution function is used for the time-of-flight conversion and axis. The resolution function gives the distribution of the extra equivalent path length λ for each neutron energy, as a Gaussian convolved with two exponential tails, (1 − f<sub>2</sub>) EMG(μ, σ, τ<sub>1</sub>) + f<sub>2</sub> EMG(μ, σ, τ<sub>2</sub>), with the parameters (EAR2: μ about 6 cm at low energy and 30 cm above 1 MeV; fast tail τ<sub>1</sub> of 2 to 40 cm, slow tail τ<sub>2</sub> of 40 to 130 cm; EAR1: edge at about 10 cm) interpolated in log E; for EAR1 below about 0.1 eV a third broad Gaussian around 150 cm describes thermal neutrons that leave the moderator late; a neutron of energy E arrives at t = (L + λ) / v. Each energy bin of the rate spectrum is spread over apparent times with this distribution, so the total rate is conserved. The distribution has a long tail towards later times (lower apparent energies) and, above about 10 MeV, towards negative λ. <i>Fixed path length ΔL</i> (default 0.5 cm for every beam line without a Monte Carlo RF) gives a time spread ΔL / v(E). The total resolution is the quadrature sum of the pulse width, the additional width (detector, electronics, moderator) and the fixed-path-length target spread; the line under the fields gives the resulting ΔE/E at 1 eV, 1 keV and 1 MeV. The total resolution is the quadrature sum of all parts. The flight path is the one in the beam line name. See section 5 for what is broadened.</p>
             <p><b>Cross sections (ACE).</b> A browser cannot open a path that is typed in. The path field is only a reminder (it is kept in this browser). The folder button opens a file dialog (on macOS press ⌘⇧G and paste the path). The page then looks for <code>xsdir</code>, reads the list of ASCII neutron tables (names such as 26056.80c) and finds each isotope's file by the name written in xsdir, in any subfolder of the chosen folder (a <code>datapath=</code> line in xsdir, or a folder in the file name, narrows the search when several files share a name). Only the isotope you pick is read, so a large library loads quickly. Without an xsdir, the page reads the headers of all ACE files in the folder. Single ACE files can be loaded with the second chooser. Type-1 ASCII files are supported, with the old 12-line header and the ACE 2.0.0 header; binary ACE is not. The status line below the buttons reports what was read, or the file name and the problem when something fails.</p>
             <p><i>Find isotope</i> filters the list: use Au-197, 79197 or a full ZAID such as 26056.80c. If nothing matches, or the xsdir entry points to a file that is not in the folder, an error message says so.</p>
-            <p><b>Reaction channels.</b> The list holds the MTR/SIG reactions of the table, plus total (MT 1), elastic (MT 2) and absorption (MT 101) from the main energy grid. MT 3 (non-elastic) is derived as total minus elastic. Tick one or more. At least one stays ticked. <i>Reset reaction selection</i> returns to a single reaction: radiative capture (MT 102), or fission (MT 18) if the table has no capture channel, and puts the result selectors back to their defaults.</p>
+            <p><b>Reaction channels.</b> The list holds the MTR/SIG reactions of the table, plus total (MT 1), elastic (MT 2) and absorption (MT 101) from the main energy grid. MT 3 (non-elastic) is derived as total minus elastic. Tick one or more. You can also untick every reaction (<i>Untick all</i>, or one by one): an isotope without a ticked reaction contributes no rate but still shields the sample, and is listed as <i>shielding only</i>. If no reaction at all is ticked, in the primary isotope or in any component, the page shows a note instead of the plots. <i>Reset reaction selection</i> returns to a single reaction: radiative capture (MT 102), or fission (MT 18) if the table has no capture channel, and puts the result selectors back to their defaults.</p>
             <p><b>Compound (optional).</b> The isotope chosen above is the primary component. <i>Add component</i> adds another isotope with its number of atoms per primary atom (real values allowed, for example 2 for the oxygen in UO₂). Each component has its own isotope filter, table selector and list of reactions to count, where you can tick several. <i>Reset reaction selection</i> unticks them all and <i>Remove</i> deletes the component. A component with no reaction ticked only takes part in the self-shielding; with reactions ticked, each one gets its own row in <i>Rates by reaction</i>. Loading another library clears the components.</p>
             <p><b>Sample and energy window.</b> <i>Sample mass</i> (mg) and <i>Number of atoms N</i> are linked: N is the number of atoms of the primary isotope (it can be real, for example 1.5e18), and the mass is the total mass of all components. The atoms of the other components are r × N, where r is the ratio you entered, and they are listed in <i>Rates by reaction</i>. N follows from the mass as N = mass / (AWR × 1.00866 u / N<sub>A</sub>) for a single isotope, and with the summed atomic masses of all components for a compound. <i>Thickness</i>, <i>Density</i> and <i>Beam spot radius</i> are also linked: the spot is taken as a circle of area A = π r², and thickness = mass / (density × A). Editing the thickness changes the mass. Density starts at the density of the element (a table inside the page); you can overwrite it, and <i>Use element density</i> restores the default. For a compound there is no default, so enter the density of the mixture. <i>E min</i> and <i>E max</i> set the energy window of the integral. <i>Include self-shielding</i> switches the correction on or off (see 7).</p>
 
@@ -330,7 +330,7 @@ table.t .cfg { color: var(--ink2); font-size: 12px; }
         <label class="fld"><span>Isotope table</span><select id="iso"></select></label>
         <div class="errline" id="isoErr" role="alert"></div>
         <div class="fld"><span>Reaction channels (tick one or more)</span><div class="mtbox" id="mt"></div></div>
-        <div class="btns"><button class="btn" id="mtReset" type="button">Reset reaction selection</button></div>
+        <div class="btns"><button class="btn" id="mtReset" type="button">Reset reaction selection</button><button class="btn" id="mtClear" type="button">Untick all</button></div>
         <dl class="kv" id="tabInfo"></dl>
       </section>
 
@@ -9049,7 +9049,7 @@ async function selectTable(idx) {
 function applyPrimarySel(idxs) {
   idxs = idxs.slice().sort((a, b) => a - b);
   S.rxs = idxs.map(i => S.tab.rxs[i]);
-  S.rx = S.rxs[0];
+  S.rx = S.rxs[0] || null;
   S.mts = new Set(S.rxs.map(r => r.mt));
 }
 function readNum(id) { const v = parseFloat($(id).value); return isFinite(v) ? v : NaN; }
@@ -9120,7 +9120,7 @@ function update() {
     ? (S.libName ? '<dt>Library</dt><dd>' + esc(S.libName) + '</dd>' : '') + '<dt>ZAID</dt><dd>' + esc(t.zaid) + '</dd><dt>AWR</dt><dd>' + t.awr.toFixed(4) + '</dd><dt>Temperature</dt><dd>' + Math.round(t.temp / MEV_PER_K) + ' K</dd><dt>Energy points</dt><dd>' + t.nes + '</dd><dt>Comment</dt><dd>' + esc(t.comment) + '</dd>'
     : '';
 
-  if (!t || !S.rx || warn.length) {
+  if (!t || warn.length) {
     $('sel' + 'Line').innerHTML = '';
     $('sum').innerHTML = '';
     $('chartHost').innerHTML = '';
@@ -9182,6 +9182,14 @@ function update() {
     items.push({ key: 'all:total', grp: 'all', gname: 'Compound (all isotopes)', ratio: 1, rx: sx, sum: true, all: true, gts, ms: msA, res: integrateR(sx, fluxOf(F), sc, S.emin, S.emax, S.shield, S.nAtB, RP, msA) });
   }
   S.items = items;
+  if (!items.length) {                                               // nothing ticked: no curves, only a note
+    $('selLine').innerHTML = '';
+    $('sum').innerHTML = '<div class="note">No reaction channel is selected. Tick a reaction of the primary isotope or of an additional component to see rates. An isotope without a ticked reaction still shields the sample.</div>';
+    $('chartHost').innerHTML = ''; $('cmp').innerHTML = ''; $('dec').innerHTML = ''; $('compTab').innerHTML = '';
+    $('compCard').hidden = true; $('viewSel').innerHTML = ''; $('decSel').innerHTML = ''; $('msStat').textContent = '';
+    S.res = null; S.chartData = null; S.extraRes = [];
+    return;
+  }
   // when the selection changes so that a sum appears (several reactions or several isotopes), show the sum
   const sig = items.map(x => x.key).join('|');
   if (sig !== S.itemSig) {
@@ -9260,6 +9268,7 @@ function renderComponents(atoms) {
   const act = S.comps.filter(c => c.tab && c.ratio > 0);
   $('compInfo').textContent = S.comps.length ? 'Sample mass is the total. N is the number of ' + t.label + ' atoms (' + sciTxt(atoms, 3) + '); the others follow from their ratios.' : '';
   const rows = S.items.filter(x => !x.sum).map(x => ({ label: x.gname, ratio: x.ratio, rx: x.rx, r: x.res }));
+  if (!S.rxs.length) rows.unshift({ label: t.label, ratio: 1, rx: null, r: null });
   for (const c of act) if (!c.mts.length) rows.push({ label: c.tab.label, ratio: c.ratio, rx: null, r: null });
   if (rows.length < 2) { card.hidden = true; $('compTab').innerHTML = ''; return; }
   let tot = 0, cnt = 0;
@@ -10405,11 +10414,17 @@ function bind() {
     S.view = ''; S.decView = 'follow';
     update();
   });
+  $('mtClear').addEventListener('click', () => {
+    if (!S.tab) return;
+    applyPrimarySel([]);
+    $('mt').querySelectorAll('input').forEach(x => { x.checked = false; });
+    S.view = ''; S.decView = 'follow';
+    update();
+  });
   $('viewSel').addEventListener('change', e => { S.view = e.target.value; update(); });
   $('decSel').addEventListener('change', e => { S.decView = e.target.value; update(); });
   $('mt').addEventListener('change', e => {
     const idxs = Array.from($('mt').querySelectorAll('input:checked')).map(x => parseInt(x.value, 10));
-    if (!idxs.length) { e.target.checked = true; return; }
     applyPrimarySel(idxs);
     update();
   });

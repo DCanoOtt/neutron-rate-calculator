@@ -16,7 +16,7 @@ are read locally.
   NFS (GANIL/SPIRAL-2), and IFMIF-DONES (two configurations). A fluence file with your own energy–flux tables can be loaded for
   other beam lines. Repetition rate, flight path and fluence scale can be changed.
 - **Cross sections:** pointwise ACE files, located through an MCNP-style `xsdir` (see below). All reactions in the
-  file can be selected by MT number. The cross section is never broadened by the program.
+  file can be selected by MT number, one or several, or none (an isotope with no reaction selected only shields the sample). The cross section is never broadened by the program.
 - **Rates:** reaction rate density per atom or per sample, rate per energy decade, cumulative rate, per
   beam pulse and per second, for the chosen facility and for all facilities side by side.
 - **Reaction yield:** a switch replaces the rate by the yield per incident neutron,
