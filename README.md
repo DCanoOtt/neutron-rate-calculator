@@ -39,7 +39,9 @@ are read locally.
   vertical axis under the pointer is displayed.
 - **Chart of the nuclides:** a Segrè-type chart showing which isotopes have data in the loaded library, decay mode,
   magic numbers, zoom, search box (for example `Fe-56`) and selection of the primary isotope or of an additional component.
-- **Saving:** PNG, PDF, ASCII table and CERN ROOT histograms (TH1D in one file). Every saved item carries a
+- **Saving:** PNG, PDF, ASCII table and CERN ROOT histograms (TH1D in one file). When several reactions or components
+  are selected, the ASCII table and the ROOT file contain every individual reaction and the sum (and the compound total),
+  whichever curve is displayed. Every saved item carries a
   title or header with the facility, flight path, repetition rate, isotope, reactions, library, sample (radius, mass,
   thickness in atoms/barn) and the resolution function used.
 

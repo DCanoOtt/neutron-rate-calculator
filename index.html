@@ -223,8 +223,8 @@ table.t .cfg { color: var(--ink2); font-size: 12px; }
             <p><b>Sum of reactions.</b> Σ is built as one cross section σ<sub>Σ</sub>(E) = Σ σ<sub>k</sub>(E) on the union of the energy grids of its reactions, and is then folded with the fluence and the shielding like any other reaction. Because the shielding factor depends only on the total cross section, the rate density of the sum is exactly the sum of the individual rate densities. Overlapping channels (MT 101 with MT 102, MT 3 with MT 2 or MT 4, MT 1 with anything) are counted twice, so tick only channels that do not overlap.</p>
             <p><b>Reaction rate or yield.</b> <i>Third plot</i> swaps the third panel between the reaction rate density and the <i>reaction yield</i>, the number of reactions per incident neutron: Y(E) = (N / A) σ<sub>eff</sub>(E), with N the number of atoms of the chosen isotope in the sample, A the beam spot area and σ<sub>eff</sub> = rate density per atom / fluence (self-shielding and the resolution function included). For a thin sample this is (N / A) σ(E); for a thick one it tends to (1 − e<sup>−nσ<sub>tot</sub></sup>) σ / σ<sub>tot</sub>. The cumulative curve and the per-atom / per-sample choice only apply to the rate. Saved plots and ROOT histograms follow the choice (the histogram is called <code>yield</code>).</p>
             <p><b>Isotope chart.</b> The <i>Isotope chart</i> button above <i>Find isotope</i> opens a floating chart of the nuclides (neutron number N across, proton number Z up). Colours give the main decay mode of the ground state: black stable, blue β⁻, light red EC / β⁺, yellow α, green spontaneous fission, orange proton emission, violet neutron emission, tan other. Isotopes that have a table in the loaded library are drawn in full colour with an outline; the others are faded. Use the wheel or the + / − buttons to zoom, or drag a rectangle (<i>Zoom box</i>) to zoom into a region; <i>Move</i> (or Shift+drag) drags the chart; double-click or <i>Whole chart</i> shows everything, and <i>Selected</i> centres on the current isotope. The title bar moves the window and its corner resizes it. The magic numbers 2, 8, 20, 28, 50, 82 and 126 are bracketed by thin dashed orange lines and labelled in orange on both axes. A click on an isotope with data selects it as the isotope of the page; Shift+click adds it to the compound. Moving the pointer over an isotope opens a small window with its name, Z, N, A, decay mode, half-life and the ZAIDs available. Decay data: NUBASE.</p>
-            <p><b>Saving the plots.</b> The <i>Save plot</i> button (next to <i>Reset zoom</i>) opens a menu with PNG, PDF and ROOT histograms. PNG and PDF save the three panels as they are shown, with a white background (the PDF is one page that holds the picture). <i>ROOT histograms</i> writes one ROOT file with the curves of the three panels as TH1D histograms on the energy range shown (including the zoom): <code>phi</code>, <code>sigma</code>, <code>rate</code>, plus <code>rate_thin_sample</code>, <code>rate_without_resolution</code>, <code>rate_cumulative_fraction</code> and one histogram per extra reaction when those curves are drawn. Each bin spans the geometric mid-points between neighbouring energy points of the table, in MeV, and its content is the value at that point (the rate density is per unit ln E). The file is delivered inside a zip because the viewer only allows some file types. You are asked to confirm the file name.</p>
-            <p><b>Charts.</b> Three panels share one logarithmic energy axis: the fluence Φ(E), the cross section σ(E), and the rate density (rate per unit ln E). The energy values are written under every panel and, when you zoom into a narrow window, switch to round numbers on a linear scale so there is always a reference. Each panel has its title and units above it and, where needed, a colour legend in a band above the frame, so nothing is written over the curves. When several reactions are drawn, every ticked reaction of the chosen isotope has its own colour in the σ and rate-density panels (with Σ drawn first when it is the chosen result), and the cumulative curve belongs to the chosen result. <i>Linear / Log</i> sets the vertical axis of all three panels (fluence, cross section and rate density; log by default); on log axes the range grows up to 18 decades when several curves are drawn. <i>Per atom / Per sample</i> chooses whether the rate density is for one atom or for the whole sample. The dashed black line is the cumulative rate in % (right axis); the dotted line is the thin-sample value, shown for a single curve when self-shielding is on. The shaded band marks energies below the pulse-overlap energy. The <i>Axis</i> toggle switches the horizontal axis between neutron energy and time of flight (see section 5). Move the pointer over the charts to read E, t and the values there; drag across the charts to zoom in; double-click or press <i>Reset zoom</i> to return to the full window.</p>
+            <p><b>Saving the plots.</b> The <i>Save plot</i> button (next to <i>Reset zoom</i>) opens a menu with PNG, PDF, ASCII and ROOT histograms. PNG and PDF save the three panels as they are shown, with a white background (the PDF is one page that holds the picture). <i>ASCII</i> writes one text table with a commented header (run description and a numbered list of columns): energy, fluence, and for the cross section and the rate density the main curve, the sum of the selected reactions and every individual reaction (MT) of every component, with the compound total if there is one. Curves with another energy grid are linearly interpolated onto the grid of column 1. The normalisation is that of the plots: per atom or in the sample, or reactions per incident neutron for the yield. <i>ROOT histograms</i> writes one ROOT file with the curves of the three panels as TH1D histograms on the energy range shown (including the zoom): <code>phi</code>, <code>sigma</code>, <code>rate</code>, plus <code>rate_thin_sample</code>, <code>rate_without_resolution</code>, <code>rate_cumulative_fraction</code> and, when several reactions or components are selected, one histogram for every individual reaction and for each sum (names such as <code>sigma_n_g_MT102</code>, <code>rate_n_2n_MT16</code>, <code>rate_sum_selected</code>; the first histograms <code>sigma</code> and <code>rate</code> are the curve shown as main curve, usually the sum). Everything selected is written, whichever curve is displayed. Each bin spans the geometric mid-points between neighbouring energy points of the table, in MeV, and its content is the value at that point (the rate density is per unit ln E). The file is delivered inside a zip because the viewer only allows some file types. You are asked to confirm the file name.</p>
+            <p><b>Charts.</b> Three panels share one logarithmic energy axis: the fluence Φ(E), the cross section σ(E), and the rate density (rate per unit ln E). The energy values are written under every panel and, when you zoom into a narrow window, switch to round numbers on a linear scale so there is always a reference. Each panel has its title and units above it and, where needed, a colour legend in a band above the frame, so nothing is written over the curves. When several reactions are drawn, every ticked reaction of the chosen isotope has its own colour in the σ and rate-density panels (with Σ drawn first when it is the chosen result), and the cumulative curve belongs to the chosen result. <i>Linear / Log</i> sets the vertical axis of all three panels (fluence, cross section and rate density; log by default); on log axes the range grows up to 18 decades when several curves are drawn. <i>Per atom / Per sample</i> chooses whether the rate density is for one atom or for the whole sample (the default is the whole sample). The dashed black line is the cumulative rate in % (right axis); the dotted line is the thin-sample value, shown for a single curve when self-shielding is on. The shaded band marks energies below the pulse-overlap energy. The <i>Axis</i> toggle switches the horizontal axis between neutron energy and time of flight (see section 5). Move the pointer over the charts to read E, t and the values there; drag across the charts to zoom in; double-click or press <i>Reset zoom</i> to return to the full window.</p>
             <p><b>Zooming.</b> Drag across the plots to zoom the energy range only (the vertical axes stay as they are). Hold <i>Shift</i> while dragging to draw a box inside one plot: the horizontal range of all plots follows the width of the box and the vertical range of that plot follows its height. A Shift-drag that is nearly horizontal or nearly vertical (under 6 pixels in the other direction) changes only one axis. A plot with a manual vertical range shows <i>[y zoomed]</i> after its title; the other plots stay on autoscale, and the rate and the yield plots remember their ranges separately. Double-click a plot or press <i>Reset zoom</i> to return to the full energy range and autoscale in all plots. <i>Save plot</i> as PNG or PDF stores what is on screen, while ASCII and ROOT files hold the whole data.</p>
             <p><b>Rate by energy decade.</b> The share of the total rate in each decade of neutron energy, in %, in 1/s for the sample and per pulse. Its own <i>Reaction</i> selector, next to the title, offers the same list as <i>Results for</i>. <i>Same as results</i> (the default) follows that selector; any other choice keeps the decade table on that reaction or sum while the rest of the page shows something else.</p>
             <p><b>All facilities, same isotope and reaction.</b> The same calculation for every beam line, with the reaction chosen in <i>Results for</i>. Each line is at its nominal rate and path (your own settings for the selected line). The columns are the rate per atom, in the sample and per pulse. <i>Relative</i> is a bar for the per-atom rate on a logarithmic scale: the best facility is a full bar, and each factor of 10 below it shortens the bar by one sixth (minimum 2 %). Read the exact ratios from the numbers.</p>
@@ -391,8 +391,8 @@ table.t .cfg { color: var(--ink2); font-size: 12px; }
           </div>
           <div class="seg" role="group" aria-label="Rate density normalisation">
             <span class="lbl">Rate density</span>
-            <button type="button" id="nrAtom" aria-pressed="true">Per atom</button>
-            <button type="button" id="nrSample" aria-pressed="false">Per sample</button>
+            <button type="button" id="nrAtom" aria-pressed="false">Per atom</button>
+            <button type="button" id="nrSample" aria-pressed="true">Per sample</button>
           </div>
           <div class="seg" role="group" aria-label="Vertical axis scale">
             <span class="lbl">Vertical axes</span>
@@ -8753,7 +8753,7 @@ GELINA moderated (30 m, 800Hz)
 const $ = id => document.getElementById(id);
 const S = {
   blob: null, tables: [], tab: null, tabIdx: -1, rx: null,
-  dens: NaN, densUser: false, Z: -1, facId: 'fac0', fluxSource: 'Fluxes01.txt', f: 1, L: 1, mass: 1, area: Math.PI, ss: true, nAtB: 0, totXs: null, emin: 1e-8, emax: 100, rateLog: true, rateSample: false, rateKind: 'rate', atoms: 0, zx: null,
+  dens: NaN, densUser: false, Z: -1, facId: 'fac0', fluxSource: 'Fluxes01.txt', f: 1, L: 1, mass: 1, area: Math.PI, ss: true, nAtB: 0, totXs: null, emin: 1e-8, emax: 100, rateLog: true, rateSample: true, rateKind: 'rate', atoms: 0, zx: null,
   custom: {}, filter: '', res: null, token: 0, ssModel: 'first', msN: 2000, msCache: null, msBusy: null, msTok: 0, msUsed: false, msView: null, comps: [], mpa: 0, shield: [], rxs: [], mts: new Set(), viewAll: false, resOn: false, resW: 0, resK: 'fwhm', pulse: {}, tg: {}, tofAxis: false, extraRes: [], items: [], view: '', decView: 'follow', rxView: null
 };
 const facOf = id => FAC.find(f => f.id === id);
@@ -9206,7 +9206,8 @@ function update() {
   $('decSel').innerHTML = '<option value="follow"' + (S.decView === 'follow' ? ' selected' : '') + '>same as results</option>' + optsOf(it => S.decView !== 'follow' && it === di);
   const res = vi.res;
   S.res = res;
-  S.viewName = iname(vi); S.viewAtoms = atoms * vi.ratio;
+  S.viewName = iname(vi); S.viewAtoms = atoms * vi.ratio; S.atomsP = atoms;
+  S.itemName = iname;
   S.viewAll = !!vi.all;
   S.extraRes = vi.all
     ? vi.gts.map(g => ({ rx: g.rx, name: g.gname + ' · ' + (g.sum ? 'Σ selected' : g.rx.sym + ' (MT ' + g.rx.mt + ')'), res: { E: g.res.E, sig: Float64Array.from(g.res.sig, v => v * g.ratio), rho: Float64Array.from(g.res.rho, v => v * g.ratio), phi: g.res.phi } }))
@@ -9497,6 +9498,7 @@ function pathOf(idx, E, Y, X, yf, log) {
   return d;
 }
 
+function xport_add(list, name, E, Y) { list.push({ name, E, Y }); }
 function renderCharts() {
   const host = $('chartHost'), res = S.res;
   if (!res || !res.E.length) { host.innerHTML = ''; return; }
@@ -9542,6 +9544,22 @@ function renderCharts() {
     { id: 'rho', nm: yld ? 'yield' : 'rate', title: yld ? 'Reaction yield per incident neutron' : (S.rateSample ? 'Rate density in sample' : 'Rate density per atom'), unit: yld ? 'reactions / neutron' : '1/s per ΔlnE', Y: yld ? yv(res.rho.subarray(ia, ib), V.phi) : V.rho, Y3: RAW ? (yld ? yv(RAW.rho0, RAW.phi) : RAW.rho) : null, E3: RAW ? RAW.E : null, Y2: (S.nAtB > 0 && !multi && !yld) ? (yld ? yv(res.rhoThin.subarray(ia, ib), V.phi) : V.thin) : null, log: S.rateLog, color: multi ? RC[0] : 'var(--fc)', leadName: S.viewName, ex: XV.map(x => ({ E: x.E, Y: yld ? yv(x.rho0, x.phi) : x.rho, color: x.color, name: x.name })) }
   ];
   S.chartData = { panels, V, total: yld ? 0 : res.total };
+  // Export set: every ticked reaction of every component, the sum of each component and the compound total, whichever curve is shown.
+  // Same normalisation as the displayed lead curve (per atom of its isotope, or in the sample; per primary atom in the compound view).
+  S.chartData.xport = { sig: [], rho: [] };
+  if (S.items && S.items.length > 1 && S.itemName) {
+    const atP = S.atomsP || 0;
+    S.items.forEach(it => {
+      if (it.key === S.view) return;
+      const r = it.res; if (!r || !r.E.length) return;
+      const a = Math.max(0, lowerBound(r.E, x0) - 1), b = Math.min(r.E.length, upperBound(r.E, x1) + 1);
+      const name = S.itemName(it), sgs = S.viewAll ? it.ratio : 1;
+      const kx = yld ? atP * it.ratio / S.area : (S.rateSample ? atP * it.ratio : (S.viewAll ? it.ratio : 1));
+      const E = r.E.subarray(a, b), ph = r.phi.subarray(a, b);
+      xport_add(S.chartData.xport.sig, name, E, Float64Array.from(r.sig.subarray(a, b), v => v * sgs));
+      xport_add(S.chartData.xport.rho, name, E, Float64Array.from(r.rho.subarray(a, b), (v, i) => yld ? (ph[i] > 0 ? v / ph[i] * kx : 0) : v * kx));
+    });
+  }
   // Legends sit in a band above each plot so they never cover the curves.
   let yy = top;
   panels.forEach((p, pi) => {
@@ -9809,6 +9827,14 @@ function runInfo() {
     resTx
   ];
 }
+function hname(n) {                                  // histogram name: '(n,γ) (MT 102)' -> 'n_g_MT102', 'Σ selected' -> 'sum_selected'
+  return n.replace(/Σ/g, 'sum ').replace(/γ/g, 'g').replace(/\(n,([^)]*)\)\s*\(MT (\d+)\)/g, 'n $1 MT$2').replace(/[^A-Za-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+}
+function exList(p) {                                  // curves written to ASCII / ROOT besides the lead curve
+  const xp = S.chartData && S.chartData.xport;
+  if (xp && (p.id === 'sig' || p.id === 'rho')) return xp[p.id];
+  return p.ex || [];
+}
 function chartHistograms() {
   const cd = S.chartData; if (!cd) return [];
   const out = [], seen = {}, nm = { phi: 'phi', sig: 'sigma', rho: 'rate' };
@@ -9821,7 +9847,7 @@ function chartHistograms() {
     add(b, p.title, p.unit, cd.V.E, p.Y);
     if (p.Y2) add(b + '_thin_sample', p.title + ' (thin sample)', p.unit, cd.V.E, p.Y2);
     if (p.Y3) add(b + '_without_resolution', p.title + ' (without resolution)', p.unit, p.E3, p.Y3);
-    (p.ex || []).forEach(x => add(b + '_' + x.name, p.title + ' ' + x.name, p.unit, x.E, x.Y));
+    exList(p).forEach(x => add(b + '_' + hname(x.name), p.title + ' ' + x.name, p.unit, x.E, x.Y));
   });
   if (cd.total > 0) add('rate_cumulative_fraction', 'Cumulative fraction of the rate', 'fraction', cd.V.E, Float64Array.from(cd.V.cum, v => v / cd.total));
   return out;
@@ -9829,7 +9855,7 @@ function chartHistograms() {
 function chartText(F) {
   const cd = S.chartData; if (!cd) return '';
   const A = asciiName, f = v => (Number.isFinite(v) ? v.toExponential(6) : 'nan'), L = [];
-  const E0 = cd.V.E, multi = cd.panels.some(p => p.ex && p.ex.length);
+  const E0 = cd.V.E, multi = cd.panels.some(p => exList(p).length);
   L.push('# Neutron reaction rate calculator - plotted data');
   L.push('# Created: ' + new Date().toISOString());
   runInfo().forEach((l, i) => L.push('# ' + (i === 0 ? 'Run: ' : '') + A(l)));
@@ -9842,7 +9868,7 @@ function chartText(F) {
     const t = A(p.title), u = A(p.unit);
     cols.push(t + (p.leadName ? ' - ' + A(p.leadName) : '') + ' [' + u + ']'); ys.push(p.Y);
     if (p.Y2) { cols.push(t + (p.leadName ? ' - ' + A(p.leadName) : '') + ', thin sample [' + u + ']'); ys.push(p.Y2); }
-    (p.ex || []).forEach(x => {
+    exList(p).forEach(x => {
       cols.push(t + ' - ' + A(x.name) + ' [' + u + ']');
       ys.push(Float64Array.from(E0, e => interpLin(x.E, x.Y, e)));
     });
