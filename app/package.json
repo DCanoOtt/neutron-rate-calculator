@@ -1,0 +1,27 @@
+{
+  "name": "neutron-rate-calculator-app",
+  "productName": "Neutron Reaction Rate Calculator",
+  "version": "1.0.0",
+  "description": "Desktop application (Windows, macOS, Linux) of the Neutron Reaction Rate Calculator",
+  "author": "Daniel Cano Ott (CIEMAT)",
+  "license": "UNLICENSED",
+  "main": "main.js",
+  "scripts": {
+    "prepare-page": "node -e \"require('fs').copyFileSync('../index.html','index.html')\"",
+    "start": "npm run prepare-page && electron .",
+    "dist": "npm run prepare-page && electron-builder --publish never",
+    "dist:win": "npm run prepare-page && electron-builder --publish never --win",
+    "dist:mac": "npm run prepare-page && electron-builder --publish never --mac",
+    "dist:linux": "npm run prepare-page && electron-builder --publish never --linux"
+  },
+  "devDependencies": { "electron": "^33.2.1", "electron-builder": "^25.1.8" },
+  "build": {
+    "appId": "es.ciemat.neutron-rate-calculator",
+    "productName": "Neutron Reaction Rate Calculator",
+    "files": ["main.js", "index.html", "build/icon.png"],
+    "directories": { "output": "dist", "buildResources": "build" },
+    "win": { "target": ["nsis", "portable"] },
+    "mac": { "target": ["dmg"], "category": "public.app-category.education" },
+    "linux": { "target": ["AppImage"], "category": "Science", "maintainer": "Daniel Cano Ott" }
+  }
+}

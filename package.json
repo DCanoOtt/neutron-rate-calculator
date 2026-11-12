@@ -1,0 +1,9 @@
+{
+  "name": "neutron-rate-calculator",
+  "private": true,
+  "description": "Neutron reaction rate calculator: source tree that builds one self-contained index.html",
+  "scripts": {
+    "build": "node build.js index.html",
+    "test": "node build.js && node --test tests/physics.test.js tests/store.test.js"
+  }
+}
